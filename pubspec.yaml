@@ -32,7 +32,8 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/dribbble.png"
+  image_path_android: "assets/images/dribbble.png"
+  image_path_ios: "assets/images/dribbble_ios.png"
   adaptive_icon_background: "#333333"
   adaptive_icon_foreground: "assets/images/dribbble.png"
 
