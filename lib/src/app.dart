@@ -10,6 +10,8 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Dribbbly',
       theme: appThemes[AppTheme.DribbblyLight],
+      darkTheme: appThemes[AppTheme.DribbblyDark],
+      // themeMode: ThemeMode.system,
       initialRoute: RoutePath.homeScreen,
       onGenerateRoute: RouteGenerator.generateRoute,
     );
