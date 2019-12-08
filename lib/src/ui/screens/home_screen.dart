@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../core/providers/theme_provider.dart';
+import '../../core/providers/task_provider.dart';
+import '../global/style_list.dart';
+import '../widgets/task_date_list.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -6,16 +11,41 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          // title: Text('test'),
-          ),
+      appBar: AppBar(),
       body: Container(
-        child: Center(child: Text('test')),
+        padding: StyleList.basePadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              child: Consumer<TaskProvider>(
+                builder: (context, taskProvider, child) {
+                  return Text(
+                    taskProvider.taskCount == 0
+                        ? 'No Task'
+                        : '${taskProvider.taskCount} Tasks',
+                    textAlign: TextAlign.start,
+                    style: StyleList.titleTextStyle,
+                  );
+                },
+              ),
+            ),
+            StyleList.baseVerticalSpace,
+            Expanded(
+              child: TaskDateList(),
+            )
+          ],
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
+      floatingActionButton: GestureDetector(
+        onDoubleTap: () =>
+            Provider.of<ThemeProvider>(context, listen: false).changeTheme(),
+        child: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(Icons.add),
+        ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
