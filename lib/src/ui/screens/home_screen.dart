@@ -1,8 +1,10 @@
+import 'package:dribbbly_todo/src/core/models/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/providers/theme_provider.dart';
 import '../../core/providers/task_provider.dart';
 import '../global/style_list.dart';
+import '../global/route/route_path.dart';
 import '../widgets/task_date_list.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -41,7 +43,17 @@ class HomeScreen extends StatelessWidget {
         onDoubleTap: () =>
             Provider.of<ThemeProvider>(context, listen: false).changeTheme(),
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () => Navigator.pushNamed(
+            context,
+            RoutePath.writeTaskScreen,
+            arguments: TaskModel(
+              id: '',
+              title: '',
+              category: '',
+              date: DateTime.now(),
+              // isDone: false
+            ),
+          ),
           child: Icon(Icons.add),
         ),
       ),

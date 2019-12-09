@@ -116,7 +116,9 @@ class TaskProvider with ChangeNotifier {
   List<TaskModel> getTasks(DateTime date) {
     return _tasks.where((task) {
       return task.date == date;
-    }).toList();
+    }).toList()
+      // to avoid weired move with toggleDone
+      ..sort((a, b) => a.title.compareTo(b.title));
   }
 
   int countDoneTasks(DateTime date) {
@@ -131,8 +133,46 @@ class TaskProvider with ChangeNotifier {
   //   }).length;
   // }
 
-  List<String> _categories = [];
-  List<String> get taskCategoryList => [..._categories];
+  void toggleDone(TaskModel task) {
+    // simpler way without final
+    // task.toggleDone();
+    _tasks.remove(task);
+    _tasks.add(
+      TaskModel(
+        id: task.id,
+        title: task.title,
+        category: task.category,
+        date: task.date,
+        isDone: !task.isDone,
+      ),
+    );
+    notifyListeners();
+  }
+
+  void addTask(TaskModel task) {
+    _tasks.add(task);
+    notifyListeners();
+  }
+
+  void removeTask(TaskModel task) {
+    _tasks.remove(task);
+    notifyListeners();
+  }
+
+  void updateTask(TaskModel preveTask, TaskModel newTask) {
+    _tasks.remove(preveTask);
+    _tasks.add(newTask);
+    notifyListeners();
+  }
+
+  List<String> _categories = [
+    'Job stuff',
+    'Happiness',
+    'Task',
+    'Contact',
+  ];
+  List<String> get taskCategoryList => [..._categories.reversed];
+  int get categoryCount => _categories.length;
 
   void getTaskCategoryList() {
     final categories = _tasks.map((task) => task.category).toSet().toList()
@@ -151,40 +191,13 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // void addTask(Task task) {
-  //   _tasks.add(task);
-  //   notifyListeners();
-  // }
-
-  void removeTask(TaskModel task) {
-    _tasks.remove(task);
+  void addCategory(String category) {
+    _categories.add(category);
     notifyListeners();
   }
 
-  // List<String> _categories = [
-  //   'Job stuff',
-  //   'Happiness',
-  //   'Task',
-  //   'Contact',
-  //   // 'new category',
-  // ];
-  // UnmodifiableListView<String> get allSortedCategories =>
-  //     UnmodifiableListView(_categories.reversed);
-  // int get categoryCount => _categories.length;
-
-  // void checkCategory(String category) {
-  //   if (category.isNotEmpty && !_categories.contains(category)) {
-  //     addCategory(category);
-  //   }
-  // }
-
-  // void addCategory(String category) {
-  //   _categories.add(category);
-  //   notifyListeners();
-  // }
-
-  // void removeCategory(String category) {
-  //   _categories.remove(category);
-  //   notifyListeners();
-  // }
+  void removeCategory(String category) {
+    _categories.remove(category);
+    notifyListeners();
+  }
 }
