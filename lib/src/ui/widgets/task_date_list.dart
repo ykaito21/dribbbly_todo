@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../core/providers/base_provider.dart';
 import '../../core/providers/task_provider.dart';
+import '../global/widgets/view_state_widget.dart';
 import 'task_date_separator.dart';
 import 'task_list.dart';
 
@@ -9,9 +11,12 @@ class TaskDateList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<DateTime> _taskDateList = Provider.of<TaskProvider>(
-      context,
-    ).taskDateList;
+    TaskProvider _taskProvider = Provider.of<TaskProvider>(context);
+    List<DateTime> _taskDateList = _taskProvider.taskDateList;
+    if (_taskProvider.viewState == ViewState.Busy)
+      return ViewStateWidget.loadingViewState();
+    if (_taskProvider.viewState == ViewState.Error)
+      return ViewStateWidget.errorViewState('ERROR');
     return ListView.separated(
       separatorBuilder: (context, index) {
         return TaskDateSeparator();

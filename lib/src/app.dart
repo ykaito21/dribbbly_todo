@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'core/providers/category_provider.dart';
 import 'core/providers/task_provider.dart';
 import 'core/providers/theme_provider.dart';
 import 'ui/global/app_theme.dart';
@@ -17,6 +18,11 @@ class App extends StatelessWidget {
         ChangeNotifierProvider<TaskProvider>(
           create: (context) => TaskProvider(),
         ),
+        ChangeNotifierProxyProvider<TaskProvider, CategoryProvider>(
+          create: (context) => CategoryProvider(),
+          update: (context, taskProvider, categoryProvider) =>
+              categoryProvider..tasks = taskProvider.taskList,
+        )
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {

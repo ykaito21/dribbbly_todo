@@ -47,7 +47,6 @@ class HomeScreen extends StatelessWidget {
             context,
             RoutePath.writeTaskScreen,
             arguments: TaskModel(
-              id: '',
               title: '',
               category: '',
               date: DateTime.now(),

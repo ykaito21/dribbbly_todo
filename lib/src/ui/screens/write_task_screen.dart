@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../core/models/task_model.dart';
 import '../../core/providers/task_provider.dart';
+import '../../core/providers/category_provider.dart';
+import '../shared/platform/platform_exception_alert_dialog.dart';
 import '../global/style_list.dart';
 
 class WriteTaskScreen extends StatefulWidget {
@@ -19,10 +21,10 @@ class WriteTaskScreen extends StatefulWidget {
 }
 
 class _WriteTaskScreenState extends State<WriteTaskScreen> {
-  String category;
-  DateTime date;
-  bool isDone;
-  bool isBottom;
+  String _category;
+  DateTime _date;
+  bool _isDone;
+  bool _isBottom;
 
   TextEditingController _titleController;
   TextEditingController _newCategoryController;
@@ -38,10 +40,10 @@ class _WriteTaskScreenState extends State<WriteTaskScreen> {
     _categoryController = ScrollController()..addListener(_scrollListener);
     _newCategoryController = TextEditingController();
     _titleController = TextEditingController(text: task.title);
-    category = task.category;
-    date = task.date;
-    isDone = task.isDone;
-    isBottom = false;
+    _category = task.category;
+    _date = task.date;
+    _isDone = task.isDone;
+    _isBottom = false;
   }
 
   @override
@@ -58,11 +60,11 @@ class _WriteTaskScreenState extends State<WriteTaskScreen> {
             _categoryController.position.maxScrollExtent &&
         !_categoryController.position.outOfRange) {
       setState(() {
-        isBottom = true;
+        _isBottom = true;
       });
     } else {
       setState(() {
-        isBottom = false;
+        _isBottom = false;
       });
     }
   }
@@ -74,10 +76,10 @@ class _WriteTaskScreenState extends State<WriteTaskScreen> {
 
   void _addNewCategory() {
     if (newCategory.isNotEmpty) {
-      Provider.of<TaskProvider>(context, listen: false)
-          .addCategory(newCategory);
+      Provider.of<CategoryProvider>(context, listen: false)
+          .checkCategory(newCategory);
       setState(() {
-        category = newCategory;
+        _category = newCategory;
       });
       _scrollToTop();
       _newCategoryController.clear();
@@ -96,7 +98,7 @@ class _WriteTaskScreenState extends State<WriteTaskScreen> {
         : Colors.white;
     final tempDate = await showDatePicker(
       context: context,
-      initialDate: date,
+      initialDate: _date,
       firstDate: DateTime(1960),
       lastDate: DateTime(2050),
       builder: (BuildContext context, Widget child) {
@@ -128,7 +130,7 @@ class _WriteTaskScreenState extends State<WriteTaskScreen> {
       },
     );
     if (tempDate == null) {
-      return date;
+      return _date;
     }
     return tempDate;
   }
@@ -136,45 +138,73 @@ class _WriteTaskScreenState extends State<WriteTaskScreen> {
   void _addNewDate() async {
     final pickedDate = await _pickDate();
     setState(() {
-      date = pickedDate;
+      _date = pickedDate;
     });
   }
 
-  void _addUpdateTask() {
-    TaskProvider taskProvider =
-        Provider.of<TaskProvider>(context, listen: false);
-    if (title.isNotEmpty && category.isNotEmpty) {
-      taskProvider.updateTask(
-        task,
-        TaskModel(
-          id: task.id.isNotEmpty ? task.id : taskProvider.uuid.v4(),
-          title: title,
-          category: category,
-          date: date,
-          isDone: isDone,
-        ),
-      );
-      Navigator.pop(context);
+  Future<void> _addUpdateTask() async {
+    try {
+      TaskProvider taskProvider =
+          Provider.of<TaskProvider>(context, listen: false);
+      if (title.isNotEmpty && _category.isNotEmpty) {
+        task.title = title;
+        task.category = _category;
+        task.date = _date;
+        task.isDone = _isDone;
+        if (task.id != null) {
+          await taskProvider.updateTask(task);
+        } else {
+          await taskProvider.addTask(task);
+        }
+
+        // with final and string id
+        // if (task.id.isNotEmpty) {
+        //   taskProvider.updateTask(
+        //     task,
+        //     TaskModel(
+        //       id: task.id,
+        //       title: title,
+        //       category: _category,
+        //       date: _date,
+        //       isDone: _isDone,
+        //     ),
+        //   );
+        // } else {
+        //   taskProvider.addTask(
+        //     TaskModel(
+        //       id: task.id.isNotEmpty ? task.id : taskProvider.uuid.v4(),
+        //       title: title,
+        //       category: _category,
+        //       date: _date,
+        //       isDone: _isDone,
+        //     ),
+        //   );
+        // }
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      PlatformExceptionAlertDialog(
+        title: 'ERROR',
+        exception: e,
+      ).show(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    TaskProvider taskProvider = Provider.of<TaskProvider>(context);
-    final List<String> categories = taskProvider.taskCategoryList;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+          padding: StyleList.basePadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
                 child: Text(
-                  widget.task.title.isNotEmpty ? 'Edit Task' : 'New Task',
+                  task.title.isNotEmpty ? 'Edit Task' : 'New Task',
                   textAlign: TextAlign.start,
                   style: StyleList.titleTextStyle,
                 ),
@@ -210,39 +240,60 @@ class _WriteTaskScreenState extends State<WriteTaskScreen> {
                         ),
                       ),
                       StyleList.baseVerticalSpace,
-                      Container(
-                        height: 100.0,
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          controller: _categoryController,
-                          itemCount: taskProvider.categoryCount,
-                          itemBuilder: (context, index) {
-                            final eachCategory = categories[index];
-                            return RadioListTile(
-                              activeColor: Theme.of(context).accentColor,
-                              title: Text(
-                                eachCategory,
-                                style: TextStyle(
-                                  color: category == eachCategory
-                                      ? Theme.of(context).accentColor
-                                      : Theme.of(context).primaryColorDark,
-                                ),
-                              ),
-                              value: eachCategory,
-                              groupValue: category,
-                              onChanged: (pickedVal) {
-                                setState(() {
-                                  category = pickedVal;
-                                });
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          // minHeight: 0.0,
+                          maxHeight: 100.0,
+                        ),
+                        child: Consumer<CategoryProvider>(
+                          builder: (context, categoryProvider, child) {
+                            final _categories =
+                                categoryProvider.taskCategoryList;
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              controller: _categoryController,
+                              itemCount: categoryProvider.categoryCount,
+                              itemBuilder: (context, index) {
+                                final eachCategory = _categories[index];
+                                return RadioListTile(
+                                  activeColor: Theme.of(context).accentColor,
+                                  title: Text(
+                                    eachCategory,
+                                    style: TextStyle(
+                                      color: _category == eachCategory
+                                          ? Theme.of(context).accentColor
+                                          : Theme.of(context).primaryColorDark,
+                                    ),
+                                  ),
+                                  value: eachCategory,
+                                  groupValue: _category,
+                                  onChanged: (pickedVal) {
+                                    setState(() {
+                                      _category = pickedVal;
+                                    });
+                                  },
+                                );
                               },
                             );
                           },
                         ),
                       ),
-                      isBottom || taskProvider.categoryCount <= 2
-                          ? newCategoryField()
-                          : SizedBox.shrink(),
+                      Consumer<CategoryProvider>(
+                        builder: (context, categoryProvider, child) {
+                          return _isBottom || categoryProvider.categoryCount < 2
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 5.0,
+                                    // bottom: 10.0,
+                                  ),
+                                  child: newCategoryField())
+                              : SizedBox.shrink();
+                        },
+                      ),
+                      StyleList.baseVerticalSpace,
                       datePickerButton(),
+                      // StyleList.baseVerticalSpace,
                       Container(
                         width: double.infinity,
                         child: taskAddUpdateButton(),
@@ -323,7 +374,7 @@ class _WriteTaskScreenState extends State<WriteTaskScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            '${DateFormat.MMMEd().format(date)}',
+            '${DateFormat.MMMEd().format(_date)}',
             style: TextStyle(
               fontSize: 20.0,
             ),
@@ -341,7 +392,7 @@ class _WriteTaskScreenState extends State<WriteTaskScreen> {
 
   Widget taskAddUpdateButton() {
     return FlatButton(
-      onPressed: _addUpdateTask,
+      onPressed: () async => await _addUpdateTask(),
       color: Theme.of(context).accentColor,
       child: Text(
         task.title.isNotEmpty ? 'Edit' : 'Add',
