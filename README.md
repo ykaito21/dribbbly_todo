@@ -1,16 +1,15 @@
-# dribbbly_todo
+# Dribbbly
 
-A new Flutter project.
+Dribbbly is a simple todo app built with Flutter. Data will be persistent with sqflite package. Design is inspired with Dribbble & [Lucas Fernandes's Hello, Dribbble](https://dribbble.com/shots/5788100-Hello-Dribbble)
 
-## Getting Started
+<img src="gif/dribbbly.gif" width="200">
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+### Building and installing
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+git clone https://github.com/ykaito21/dribbbly_todo.git
+cd dribbbly_todo
+flutter run
+```
+The `flutter run` command both builds and installs the Flutter app to your device or emulator.

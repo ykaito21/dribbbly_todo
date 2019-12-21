@@ -105,6 +105,22 @@ class _WriteTaskScreenState extends State<WriteTaskScreen> {
         return Theme(
           data: ThemeData(
             // For only datepicker
+            colorScheme: ColorScheme(
+              background: Colors.black,
+              brightness: Brightness.light,
+              error: Colors.black,
+              onBackground: Colors.black87,
+              onError: Colors.white,
+              onSurface: Colors.black87,
+              onSecondary: Colors.black87,
+              onPrimary: Colors.black,
+              primary: Theme.of(context)
+                  .accentColor, //  need this for flat button color
+              primaryVariant: Theme.of(context).accentColor,
+              secondary: Colors.black,
+              secondaryVariant: Colors.black,
+              surface: Colors.white,
+            ),
             primaryColor: Theme.of(context).primaryColor,
             accentColor: Theme.of(context).accentColor,
             dialogBackgroundColor: Theme.of(context).primaryColor,

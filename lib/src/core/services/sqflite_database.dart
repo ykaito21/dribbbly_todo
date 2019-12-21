@@ -78,7 +78,8 @@ class SqfliteDatabase {
   //     final List<Map<String, dynamic>> res =
   //         await db.query('task', where: 'id = ?', whereArgs: [id]);
   //     // using rawquery
-  //     // final List<Map<String, dynamic>> res = await db.rawQuery('SELECT * FROM task WHERE id = $id');
+  //     // final List<Map<String, dynamic>> res =
+  //     //     await db.rawQuery('SELECT * FROM task WHERE id = ?', [id]);
   //     if (res.length != 0) {
   //       return TaskModel.fromDb(res.first);
   //     }
