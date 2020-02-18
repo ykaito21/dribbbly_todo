@@ -30,13 +30,21 @@
 </div>
 
 ## Main Features
+
 - Record a task with date and category
 - Light Theme & Dark Theme
 
 ## Main Stack
+
 - Provider to manage state
 - Sqflite for locally persistent data
 
 ## About
 
 This is a small personal project. Any comments and reactions would be awesome!
+
+## Project List
+
+- [Colorful Calculator](https://github.com/ykaito21/colorful_calculator)
+- [Dribbbly](https://github.com/ykaito21/dribbbly_todo)
+- [Note](https://github.com/ykaito21/note_app)
