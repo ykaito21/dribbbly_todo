@@ -20,10 +20,10 @@
 
 ## Screens
 
-| Light Theme                                                     | Dark Theme                                                      |
-| --------------------------------------------------------------- | --------------------------------------------------------------- |
-| <img src="pub_assets/screenshots/screenshot_1.png" width="200"> | <img src="pub_assets/screenshots/screenshot_3.png" width="200"> |
-| <img src="pub_assets/screenshots/screenshot_2.png" width="200"> | <img src="pub_assets/screenshots/screenshot_4.png" width="200"> |
+| Light Theme                                         | Dark Theme                                          |
+| --------------------------------------------------- | --------------------------------------------------- |
+| <img src="pub_assets/screenshots/screenshot_1.png"> | <img src="pub_assets/screenshots/screenshot_3.png"> |
+| <img src="pub_assets/screenshots/screenshot_2.png"> | <img src="pub_assets/screenshots/screenshot_4.png"> |
 
 
 ## Main Features
