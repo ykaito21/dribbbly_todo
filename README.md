@@ -21,14 +21,13 @@
 ## Screens
 
 <div align="center">
-
-| Light Theme                                                     | Dark Theme                                                      |
-| --------------------------------------------------------------- | --------------------------------------------------------------- |
-| <img src="pub_assets/screenshots/screenshot_1.png" width="200"> | <img src="pub_assets/screenshots/screenshot_3.png" width="200"> |
-| <img src="pub_assets/screenshots/screenshot_2.png" width="200"> | <img src="pub_assets/screenshots/screenshot_4.png" width="200"> |
-
+  <div style="align-items: center; display: flex; justify-content: center;">
+    <img src="pub_assets/screenshots/screenshot_1.png" width="200">
+    <img src="pub_assets/screenshots/screenshot_3.png" width="200">
+    <img src="pub_assets/screenshots/screenshot_2.png" width="200">
+    <img src="pub_assets/screenshots/screenshot_4.png" width="200">
+  </div>
 </div>
-
 
 ## Main Features
 - Record a task with date and category
