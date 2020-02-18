@@ -6,7 +6,7 @@
   <h2 align="center">A beautiful todo app built with Flutter
   </h2>
 
-  Design is inspired with Dribbble & [Lucas Fernandes's Hello, Dribbble](https://dribbble.com/shots/5788100-Hello-Dribbble)
+Design is inspired with Dribbble & [Lucas Fernandes's Hello, Dribbble](https://dribbble.com/shots/5788100-Hello-Dribbble)
 
 </div>
 
@@ -41,10 +41,5 @@
 
 ## About
 
-This is a small personal project. Any comments and reactions would be awesome!
-
-## Project List
-
-- [Colorful Calculator](https://github.com/ykaito21/colorful_calculator)
-- [Dribbbly](https://github.com/ykaito21/dribbbly_todo)
-- [Note](https://github.com/ykaito21/note_app)
+This is a small personal project. Any comments and reactions would be awesome! Please check
+[other projects](https://github.com/ykaito21/flutter_projects/blob/master/project_list.md) too.
