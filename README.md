@@ -1,15 +1,31 @@
-# Dribbbly
+<div align="center">
+  <div style="align-items: center; width: 300px;">
+    <img src="pub_assets/dribbble.png" width="80" height="80" />
+    <h1 align="center" style="font-size: 48px; font-weight: bold;">Dribbbly</h1>
+  </div>
+  <h2 align="center">A beautiful todo app built with Flutter
+  </h2>
 
-Dribbbly is a simple todo app built with Flutter. Data will be persistent with sqflite package. Design is inspired with Dribbble & [Lucas Fernandes's Hello, Dribbble](https://dribbble.com/shots/5788100-Hello-Dribbble)
+  Design is inspired with Dribbble & [Lucas Fernandes's Hello, Dribbble](https://dribbble.com/shots/5788100-Hello-Dribbble)
 
-<img src="gif/dribbbly.gif" width="200">
+</div>
 
+<div align="center">
+  <div style="align-items: center; display: flex; justify-content: center;">
+    <img src="pub_assets/gif/dribbbly.gif" width="200">
+  </div>
+</div>
 
-### Building and installing
+---
 
-```
-git clone https://github.com/ykaito21/dribbbly_todo.git
-cd dribbbly_todo
-flutter run
-```
-The `flutter run` command both builds and installs the Flutter app to your device or emulator.
+## Main Features
+- Record a task with date and category
+- Light Theme & Dark Theme
+
+## Main Stack
+- Provider to manage state
+- Sqflite for locally persistent data
+
+## About
+
+This is a small personal project. Any comments and reactions would be awesome!
